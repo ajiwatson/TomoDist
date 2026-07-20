@@ -1,0 +1,6 @@
+Tomogram	Average Ice Thickness	Average Distance (normalized to ice thickness)
+TS_45	103.14	0.27
+TS_54	71.60	0.26
+TS_43	92.76	0.27
+TS_03	85.76	0.26
+TS_01	148.46	0.29

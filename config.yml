@@ -1,0 +1,28 @@
+# Parameters for running TomoDist
+
+# Always check/edit before running 
+planes_dir: "./Tutorial_Data/10164/planes" #The directory containing points off of which to estimate planes. These points should correspond to ice contamination
+particles_dir: "./Tutorial_Data/10164/particles" #The directory containing particle picks.
+pixel_size: 1.08 #The binned pixel size of your tomograms given in nanometers
+tomo_dimensions: 512,512,256 #The dimensions of the binned tomogram, X,Y,Z (Z should typically be smallest dimension)
+output_dir: "./Results" #Output directory for plots and results
+dataname: EMPIAR10164 #The name you would like to add to plot labels. Perhaps a sample name or method type. Required if compare is True. Recommended for record keeping either way. 
+
+# Parameters for comparing two datasets
+compare: False #Set to True if you want to compare multiple datasets. Note, additional flags must be passed.
+planes_dir_2: None #The directory containing points off of which to estimate planes for the second dataset. Required is compare is True.
+particles_dir_2: None #The directory containing particle picks for the second dataset. Required if compare is True.
+dataname_2: None #The name of the second dataset for camparison. Required if compare is True.
+
+# Optional data processing/storage inputs
+best_fit: True #Pass to draw a plane/line of best fit for the particles. Default is True.
+keep: True #Pass to keep the .txt files generated from imod load_point_data. These are xzy corrdinates. Default is True. 
+z_weight: 10 #Amount to weigh in z for performing KMeans clustering when drawing planes. Increase for greater separation. Use whole numbers. Default is 10. 
+
+# Optional visualization inputs (can use precise color codes or plain language color names)
+rotate: False #Default is False. Set to True if you wish to also generate a plot where planes are aligned and rotated to lie in the XY plane. For visualization ONLY.
+plane_color: 'blue' #Color code for planes in plots
+bfplane_color: 'green' #Color code for plane of best fit
+point_color: 'black' #Color code for points
+violin_color1: "blue" #Color code for the violin plots for dataset 1.
+violin_color2: "blue" #Color code for the violin plots for dataset 2.
