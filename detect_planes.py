@@ -1,5 +1,5 @@
 """
-
+Functions for detecting ice planes from contamination point data using KMeans clustering.
 """ 
 
 import numpy as np
@@ -24,21 +24,21 @@ def find_centroids(points, tomo_dimensions):
 
 def cluster_planes(points, initial_centroids, z_weight):
     
-    # Weight the z dimension
-    points[:, 2] = points[:, 2] * z_weight
+    # Weight the z dimension (work on a copy to avoid mutating the original)
+    weighted = points.copy()
+    weighted[:, 2] = weighted[:, 2] * z_weight
     
     # Perform clustering
     kmeans = KMeans(n_clusters=2, init=initial_centroids)
-    kmeans.fit(points)
+    kmeans.fit(weighted)
 
     centers = kmeans.cluster_centers_
     labels = kmeans.labels_
 
-    # Undo weighting
-    points[:, 2] = points[:, 2] / z_weight
+    # Undo weighting on centers only
     centers[:, 2] = centers[:, 2] / z_weight
 
-    # Seperate out clusters
+    # Seperate out clusters (using original unmodified points)
     cluster1 = points[labels == 0]
     cluster2 = points[labels == 1]
 
@@ -81,7 +81,7 @@ def compute_best_fit_plane(points):
     return {'origin': centroid, 'normal': normal}
 
 
-# Run dectectPlanes
+# Run detectPlanes
 def make_planes(dataset, z_weight, outdir): 
 
     for tomo_name in dataset.tomograms:
