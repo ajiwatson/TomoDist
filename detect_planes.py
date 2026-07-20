@@ -57,7 +57,7 @@ def compute_best_fit_plane(points):
     return {'origin': centroid, 'normal': normal}
 
 
-# Run dectectPlanes
+# Run detectPlanes
 def make_planes(dataset, z_weight, outdir): 
 
     for tomo_name in dataset.tomograms:

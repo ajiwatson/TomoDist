@@ -73,6 +73,7 @@ def is_between_planes(dataset):
     for tomo_name in dataset.tomograms:
         
         tomogram = dataset.tomograms[tomo_name]
+        points = np.asarray(tomogram.particles)
 
         # Access the origins and normals of the two planes
         plane1_origin = tomogram.plane1["origin"]
@@ -81,31 +82,19 @@ def is_between_planes(dataset):
         plane2_normal = tomogram.plane2["normal"]
         
         # Determine if plane normals are facing the same direction or opposite directions
-        if (plane1_normal[2] * plane2_normal[2]) < 0: 
-            same = False
-        else: 
-            same = True
+        same = (plane1_normal[2] * plane2_normal[2]) >= 0
 
-        # Loop through all points in the tomogram
-        temp_list = []
-        for point in tomogram.particles:
-            # Calculate the vector from the point to each plane's origin
-            vector_to_plane1 = point - plane1_origin
-            vector_to_plane2 = point - plane2_origin
-            
-            # Compute the dot product of these vectors with the normals of the planes
-            proj_to_plane1 = np.dot(vector_to_plane1, plane1_normal)
-            proj_to_plane2 = np.dot(vector_to_plane2, plane2_normal)
-            
-            # Check if the point is between the two planes, remove it if not
-            if same:
-                if (proj_to_plane1 * proj_to_plane2) <= 0:
-                    temp_list.append(point)  
-            else: 
-                if (proj_to_plane1 * proj_to_plane2) >= 0:
-                    temp_list.append(point)
+        # Vectorized: compute projections for all points at once
+        proj1 = (points - plane1_origin) @ plane1_normal
+        proj2 = (points - plane2_origin) @ plane2_normal
+        product = proj1 * proj2
 
-        tomogram.particles = temp_list
+        if same:
+            mask = product <= 0
+        else:
+            mask = product >= 0
+
+        tomogram.particles = points[mask]
     return dataset
 
 # Find the distances of points to planes and normalize these values. 
@@ -117,26 +106,28 @@ def collect_normalized_distances(dataset, outdir):
 
         for tomo_name in dataset.tomograms:
             tomogram = dataset.tomograms[tomo_name]
-            ice_thicks = []
-            tomogram.distances = []
+            points = np.asarray(tomogram.particles)
             p1origin = tomogram.plane1['origin']
             p1normal = tomogram.plane1['normal']
             p2origin = tomogram.plane2['origin']
             p2normal = tomogram.plane2['normal']
-            for p in tomogram.particles:
-                d1 = point_to_plane_distance(p, p1origin, p1normal)
-                d2 = point_to_plane_distance(p, p2origin, p2normal)
-                min_d = min(d1, d2)
-                max_d = max(d1, d2)
-                norm_d = min_d / (min_d + max_d) if (min_d + max_d) != 0 else 0
-                tomogram.distances.append(norm_d)
-                ice_thicks.append(((min_d + max_d) * dataset.voxel_size)) # Convert ice thickness to nm
+
+            # Vectorized distance calculation for all points at once
+            d1 = np.abs((points - p1origin) @ p1normal) / np.linalg.norm(p1normal)
+            d2 = np.abs((points - p2origin) @ p2normal) / np.linalg.norm(p2normal)
+            min_d = np.minimum(d1, d2)
+            max_d = np.maximum(d1, d2)
+            total = min_d + max_d
+            norm_d = np.where(total != 0, min_d / total, 0.0)
+
+            tomogram.distances = norm_d.tolist()
+            ice_thicks = total * dataset.voxel_size
 
             # write values to file
-            file.write(f"{tomo_name}\t{np.mean(ice_thicks):.2f}\t{np.mean(tomogram.distances):.2f}\n")
+            file.write(f"{tomo_name}\t{np.mean(ice_thicks):.2f}\t{np.mean(norm_d):.2f}\n")
             
-            tomogram.ice_thickness = ((np.mean(ice_thicks))) # average ice thickness per tomogram
-            tomogram.average_dist = (np.mean(tomogram.distances)) # average normalized distance per tomogram
+            tomogram.ice_thickness = float(np.mean(ice_thicks))
+            tomogram.average_dist = float(np.mean(norm_d))
 
     return dataset
 

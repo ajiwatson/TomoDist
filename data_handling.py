@@ -26,6 +26,7 @@ import os
 import subprocess
 import numpy as np
 import shutil
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Optional 
 from dataclasses import dataclass
 
@@ -107,16 +108,17 @@ def load_point_data(dataset, particles, planes, outdir, keep=False):
     os.makedirs(temp_planes_dir, exist_ok=True)
     
     # Generate .txt files (xzy) from .spk files (xyz) for particles
-    files = os.listdir(path=particles)
-    for file in files:
-        if file.endswith('.spk'):
-            file = particles + file
-            output_file = os.path.join(temp_particles_dir, os.path.basename(file.replace('.spk', '.txt')))
-            subprocess.run(['model2point', file, output_file])
+    spk_files = [(particles + f, os.path.join(temp_particles_dir, f.replace('.spk', '.txt')))
+                 for f in os.listdir(path=particles) if f.endswith('.spk')]
+    with ThreadPoolExecutor() as executor:
+        futures = [executor.submit(subprocess.run, ['model2point', inp, out])
+                   for inp, out in spk_files]
+        for f in as_completed(futures):
+            f.result()
     
     # Read the .txt into numpy arrays and turn to xyz for particles
     particle_files_txt = os.listdir(path=temp_particles_dir)
-    for particle_file in particle_files_txt:
+    for particle_file in particle_files_txt: 
         particle_file = temp_particles_dir + particle_file
         tomo_name = os.path.splitext(os.path.basename(particle_file))[0]
         data_xzy = np.loadtxt(particle_file)
@@ -130,12 +132,13 @@ def load_point_data(dataset, particles, planes, outdir, keep=False):
         tomo_dict[tomo_name]['particles'] = data_xyz
 
     # Generate .txt files (xzy) from .spk files (xyz) for planes
-    files = os.listdir(path=planes)
-    for file in files:
-        if file.endswith('.spk'):
-            file = planes + file
-            output_file = os.path.join(temp_planes_dir, os.path.basename(file.replace('.spk', '.txt')))
-            subprocess.run(['model2point', file, output_file])
+    spk_files = [(planes + f, os.path.join(temp_planes_dir, f.replace('.spk', '.txt')))
+                 for f in os.listdir(path=planes) if f.endswith('.spk')]
+    with ThreadPoolExecutor() as executor:
+        futures = [executor.submit(subprocess.run, ['model2point', inp, out])
+                   for inp, out in spk_files]
+        for f in as_completed(futures):
+            f.result()
     
     # Read the .txt into numpy arrays and turn to xyz for planes
     plane_files_txt = os.listdir(path=temp_planes_dir)
