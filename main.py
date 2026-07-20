@@ -162,7 +162,6 @@ if __name__ == "__main__":
     z_weight = int(cfg.get("z_weight", 10))
 
     # Visualization settings
-    rotate = bool(cfg.get("rotate", False))
     plane_color = cfg.get("plane_color", "blue")
     bf_plane_color = cfg.get("bfplane_color", "green")
     point_color = cfg.get("point_color", "black")
