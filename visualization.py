@@ -196,7 +196,7 @@ def visualize_basename(
     fig2, axs2 = plt.subplots(2, 1, layout='constrained')
     # --- XZ View --- (Figure 2 SubPlot 1)
     axs2[0].scatter(pts[:, 0], pts[:, 2], s=2, color=POINT_COLOR, alpha=0.6)
-    axs2[0].set_xlim(0, 800) 
+    axs2[0].set_xlim(xmin, xmax) 
     axs2[0].set_ylim(zmin, zmax)  
     axs2[0].set_xlabel("X (nm)")
     axs2[0].set_ylabel("Z (nm)")
@@ -211,7 +211,7 @@ def visualize_basename(
 
     # --- YZ View --- (Figure 2 SubPlot 2)
     axs2[1].scatter(pts[:, 1], pts[:, 2], s=2, color=POINT_COLOR, alpha=0.6)
-    axs2[1].set_xlim(0, 800) 
+    axs2[1].set_xlim(ymin, ymax) 
     axs2[1].set_ylim(zmin, zmax) 
     axs2[1].set_xlabel("Y (nm)")
     axs2[1].set_ylabel("Z (nm)")

@@ -162,7 +162,6 @@ if __name__ == "__main__":
     z_weight = int(cfg.get("z_weight", 10))
 
     # Visualization settings
-    rotate = bool(cfg.get("rotate", False))
     plane_color = cfg.get("plane_color", "blue")
     bf_plane_color = cfg.get("bfplane_color", "green")
     point_color = cfg.get("point_color", "black")
@@ -171,18 +170,21 @@ if __name__ == "__main__":
 
 
     # Test input directories exist
-    if os.path.exists(plane_coors) == False: 
-        print("The directory {plane_coors} does not exist")
-        exit
-    if os.path.exists(particles) == False: 
-        print("The directory {particles} does not exist")
-        exit
+    if os.path.exists(plane_coors) == False:
+        print(f"The directory {plane_coors} does not exist")
+        sys.exit(1)
+    if os.path.exists(particles) == False:
+        print(f"The directory {particles} does not exist")
+        sys.exit(1)
 
-    # Create output directory if it does not exist and add a dataname directory under it
+    # Create output directory if it does not exist
     os.makedirs(outdir, exist_ok=True)
-    outdir = os.path.join(outdir, '')
-    plane_coors = os.path.join(plane_coors, '')    
-    particles = os.path.join(particles, '')
+    if not outdir.endswith('/'):
+        outdir += '/'
+    if not plane_coors.endswith('/'):
+        plane_coors += '/'
+    if not particles.endswith('/'):
+        particles += '/'
     
 
     # Test users have necessary inputs if comparing data before starting processing
@@ -195,28 +197,28 @@ if __name__ == "__main__":
             if not plane_coors2 or not particles2:
                 raise ValueError("You must provide a second dataset to perform a comparison (-planes2 and --particles2)")
 
-            outdir1 = os.path.join(outdir, dataname)
+            outdir1 = os.path.join(outdir, dataname) + '/'
             os.makedirs(outdir1, exist_ok=True)
-            os.path.join(outdir1, '')
 
-            outdir2 = os.path.join(outdir, dataname2)
+            outdir2 = os.path.join(outdir, dataname2) + '/'
             os.makedirs(outdir2, exist_ok=True)
-            os.path.join(outdir2, '')
 
-            os.path.join(particles2, '')
-            os.path.join(plane_coors2, '')
+            if not particles2.endswith('/'):
+                particles2 += '/'
+            if not plane_coors2.endswith('/'):
+                plane_coors2 += '/'
 
         except ValueError as e: 
             print(f"Error: {e}")
             exit(1)
         
         # Test input directories exist
-        if os.path.exists(plane_coors2) == False: 
-            print("The directory {plane_coors2} does not exist")
-            exit
-        if os.path.exists(particles2) == False: 
-            print("The directory {particles2} does not exist")
-            exit
+        if os.path.exists(plane_coors2) == False:
+            print(f"The directory {plane_coors2} does not exist")
+            sys.exit(1)
+        if os.path.exists(particles2) == False:
+            print(f"The directory {particles2} does not exist")
+            sys.exit(1)
 
 
    

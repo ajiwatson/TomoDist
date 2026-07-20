@@ -7,4 +7,5 @@ dependencies:
   - matplotlib
   - pandas
   - pyyaml
-  - scikit-learn 
+  - scikit-learn
+  - scipy
