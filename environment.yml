@@ -1,9 +1,8 @@
 name: TomoDist
 channels:
-  - defaults
+  - conda-forge
 dependencies:
-  - yaml=0.2.5=h1a28f6b_0
-prefix: /Users/ajw111/anaconda3/envs/TomoDist
-
-#python 3.10.0
-#person also needs model2point (imod)
+  - python=3.12 
+  - numpy
+  - matplotlib
+  - pyyaml
