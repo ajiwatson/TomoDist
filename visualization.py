@@ -1,15 +1,13 @@
-'''
-'''
+"""
+Visualization functions for TomoDist results.
+"""
 
 import os
 import numpy as np
-import pandas as pd
-from glob import glob
 from scipy.stats import mannwhitneyu
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, FormatStrFormatter, MultipleLocator
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from mpl_toolkits.mplot3d import Axes3D
 
 def plot_comparison(
     points1, 
@@ -145,7 +143,6 @@ def visualize_basename(
         (0, 2) → XZ view  → slice along constant Y
         (1, 2) → YZ view  → slice along constant X
         """
-        print(f"plane origin = {plane['origin']}")
         o = plane['origin'] * pixel_size_nm
         n = plane['normal'] / np.linalg.norm(plane['normal'])
         nx, ny, nz = n
@@ -196,7 +193,7 @@ def visualize_basename(
     fig2, axs2 = plt.subplots(2, 1, layout='constrained')
     # --- XZ View --- (Figure 2 SubPlot 1)
     axs2[0].scatter(pts[:, 0], pts[:, 2], s=2, color=POINT_COLOR, alpha=0.6)
-    axs2[0].set_xlim(0, 800) 
+    axs2[0].set_xlim(xmin, xmax)
     axs2[0].set_ylim(zmin, zmax)  
     axs2[0].set_xlabel("X (nm)")
     axs2[0].set_ylabel("Z (nm)")
@@ -211,7 +208,7 @@ def visualize_basename(
 
     # --- YZ View --- (Figure 2 SubPlot 2)
     axs2[1].scatter(pts[:, 1], pts[:, 2], s=2, color=POINT_COLOR, alpha=0.6)
-    axs2[1].set_xlim(0, 800) 
+    axs2[1].set_xlim(ymin, ymax)
     axs2[1].set_ylim(zmin, zmax) 
     axs2[1].set_xlabel("Y (nm)")
     axs2[1].set_ylabel("Z (nm)")

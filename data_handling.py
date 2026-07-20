@@ -25,7 +25,6 @@ It also contains functions required for the visualization/reading/writing of dat
 import os
 import subprocess
 import numpy as np
-from glob import glob 
 import shutil
 from typing import Any, Optional 
 from dataclasses import dataclass
@@ -92,22 +91,6 @@ class TomogramDist:
     average_dist: Optional[Any] = None
     distances: Optional[Any] = None
 
-
-# def model2point_simple(file): 
-# # simply runs model2point for a given file and returns only a correct np array, simple implementation primarily for testing purposes, doesn't run in final code product
-#     if (os.path.splitext(os.path.basename(file))[1]) != '.spk':
-#         print("The input file must be a .spk file (IMOD model file)")
-#         exit
-    
-#     output_file = file.replace('.spk', '.txt')
-#     subprocess.run(['model2point', file, output_file])
-
-#     data_flip = np.loadtxt(output_file)
-#     data = data_flip[:, [0,2,1]]
-
-#     return data
-
-
 def load_point_data(dataset, particles, planes, outdir, keep=False):
     '''
     Read in .spk files and convert them to .txt files. Read the .txt files into numpy arrays. Deletes the .txt files unless specified otherwise
@@ -125,20 +108,17 @@ def load_point_data(dataset, particles, planes, outdir, keep=False):
     
     # Generate .txt files (xzy) from .spk files (xyz) for particles
     files = os.listdir(path=particles)
-    for file in files: 
+    for file in files:
         if file.endswith('.spk'):
-            #print(file)
             file = particles + file
-            #print(file)
             output_file = os.path.join(temp_particles_dir, os.path.basename(file.replace('.spk', '.txt')))
             subprocess.run(['model2point', file, output_file])
     
     # Read the .txt into numpy arrays and turn to xyz for particles
     particle_files_txt = os.listdir(path=temp_particles_dir)
-    for particle_file in particle_files_txt: 
+    for particle_file in particle_files_txt:
         particle_file = temp_particles_dir + particle_file
         tomo_name = os.path.splitext(os.path.basename(particle_file))[0]
-        #print(particle_file)
         data_xzy = np.loadtxt(particle_file)
         data_xyz = data_xzy[:, [0,2,1]]
 
@@ -151,13 +131,10 @@ def load_point_data(dataset, particles, planes, outdir, keep=False):
 
     # Generate .txt files (xzy) from .spk files (xyz) for planes
     files = os.listdir(path=planes)
-    for file in files: 
+    for file in files:
         if file.endswith('.spk'):
-            #print(file)
             file = planes + file
-            #print(file)
             output_file = os.path.join(temp_planes_dir, os.path.basename(file.replace('.spk', '.txt')))
-            #print(output_file)
             subprocess.run(['model2point', file, output_file])
     
     # Read the .txt into numpy arrays and turn to xyz for planes
@@ -180,7 +157,7 @@ def load_point_data(dataset, particles, planes, outdir, keep=False):
 
     # Remove any keys that do not contain data for both particles and planes. Report to User. 
     common_keys = np.intersect1d(particle_tomos, plane_tomos)
-    no_planes = np.setdiff1d(plane_tomos, common_keys)
+    no_planes = np.setdiff1d(particle_tomos, common_keys)
 
     if len(no_planes) > 0:
         print("\nThere are no plane coordinates for tomograms:")

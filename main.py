@@ -71,18 +71,15 @@ def main():
 
         print("Will now plot data using matplot...")
         # --- This section used for visualization, I have not yet conceived a way to make it as clean as the analysis section
-        for tomo in data1.tomograms: 
-            tomogram = data1.tomograms[tomo] #particles are broken here
+        for tomo in data1.tomograms:
+            tomogram = data1.tomograms[tomo]
             visualize_basename(outdir1, tomogram, data1.voxel_size, plane_color, bf_plane_color, point_color, data1.name, best_fit)
-        for tomo in data2.tomograms: 
+        for tomo in data2.tomograms:
             tomogram = data2.tomograms[tomo]
             visualize_basename(outdir2, tomogram, data2.voxel_size, plane_color, bf_plane_color, point_color, data2.name, best_fit)
 
         dist1 = add_distances(data1)
         dist2 = add_distances(data2)
-
-        #print('dist1', dist1)
-        #print('dist2', dist2)
 
         ice1 = add_ice(data1)
         ice2 = add_ice(data2)
@@ -118,7 +115,6 @@ def main():
         print("Will now plot data using matplot...")
         for tomo in data.tomograms:
             tomogram = data.tomograms[tomo]
-            #print(tomogram)
             visualize_basename(outdir, tomogram, data.voxel_size, plane_color, bf_plane_color, point_color, data.name, best_fit)
         
         print("Done!")
@@ -171,18 +167,21 @@ if __name__ == "__main__":
 
 
     # Test input directories exist
-    if os.path.exists(plane_coors) == False: 
-        print("The directory {plane_coors} does not exist")
-        exit
-    if os.path.exists(particles) == False: 
-        print("The directory {particles} does not exist")
-        exit
+    if os.path.exists(plane_coors) == False:
+        print(f"The directory {plane_coors} does not exist")
+        sys.exit(1)
+    if os.path.exists(particles) == False:
+        print(f"The directory {particles} does not exist")
+        sys.exit(1)
 
-    # Create output directory if it does not exist and add a dataname directory under it
+    # Create output directory if it does not exist
     os.makedirs(outdir, exist_ok=True)
-    outdir = os.path.join(outdir, '')
-    plane_coors = os.path.join(plane_coors, '')    
-    particles = os.path.join(particles, '')
+    if not outdir.endswith('/'):
+        outdir += '/'
+    if not plane_coors.endswith('/'):
+        plane_coors += '/'
+    if not particles.endswith('/'):
+        particles += '/'
     
 
     # Test users have necessary inputs if comparing data before starting processing
@@ -195,28 +194,28 @@ if __name__ == "__main__":
             if not plane_coors2 or not particles2:
                 raise ValueError("You must provide a second dataset to perform a comparison (-planes2 and --particles2)")
 
-            outdir1 = os.path.join(outdir, dataname)
+            outdir1 = os.path.join(outdir, dataname) + '/'
             os.makedirs(outdir1, exist_ok=True)
-            os.path.join(outdir1, '')
 
-            outdir2 = os.path.join(outdir, dataname2)
+            outdir2 = os.path.join(outdir, dataname2) + '/'
             os.makedirs(outdir2, exist_ok=True)
-            os.path.join(outdir2, '')
 
-            os.path.join(particles2, '')
-            os.path.join(plane_coors2, '')
+            if not particles2.endswith('/'):
+                particles2 += '/'
+            if not plane_coors2.endswith('/'):
+                plane_coors2 += '/'
 
         except ValueError as e: 
             print(f"Error: {e}")
             exit(1)
         
         # Test input directories exist
-        if os.path.exists(plane_coors2) == False: 
-            print("The directory {plane_coors2} does not exist")
-            exit
-        if os.path.exists(particles2) == False: 
-            print("The directory {particles2} does not exist")
-            exit
+        if os.path.exists(plane_coors2) == False:
+            print(f"The directory {plane_coors2} does not exist")
+            sys.exit(1)
+        if os.path.exists(particles2) == False:
+            print(f"The directory {particles2} does not exist")
+            sys.exit(1)
 
 
    
