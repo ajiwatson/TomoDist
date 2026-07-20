@@ -2,6 +2,7 @@
 only_edit_plots.py
 Tutorial_Data/10164/
 Results/
+ManualPlanesTutorial.md
 
 # Ignore system-generated files
 .DS_Store

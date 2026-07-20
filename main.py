@@ -116,9 +116,9 @@ def main():
             data = do_best_fit(data)
 
         print("Will now plot data using matplot...")
-        for tomo in data.tomograms: 
+        for tomo in data.tomograms:
             tomogram = data.tomograms[tomo]
-            print(tomogram)
+            #print(tomogram)
             visualize_basename(outdir, tomogram, data.voxel_size, plane_color, bf_plane_color, point_color, data.name, best_fit)
         
         print("Done!")

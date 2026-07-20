@@ -75,7 +75,12 @@ class TomogramDist:
         plane origin and normals {'origin': x,y,z; 'normals': xnorm, ynorm, znorm}
     bestfit_plane: Optional[Any]
         plane origin and normals {'origin': x,y,z; 'normals': xnorm, ynorm, znorm}
-        TODO finish description
+    ice_thickness: 
+        average calculated thickness of ice across a tomogram in nanometers
+    average_dist: 
+        average calculated distance of particles from the air water interface in nanometers
+    distances:
+        all distances of particles from air water interface, normalized so unitless
     '''
     name: str 
     particles: np.ndarray 

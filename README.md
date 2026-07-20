@@ -57,14 +57,5 @@ If you go into the EMPIAR-10164 directory you should be able to see the results!
     ("--violin_color1", default="blue", help="Color code for the violin plots for dataset 1.")
     ("--violin_color2", default="blue", help="Color code for the violin plots for dataset 2.")
 
-## Optional Side Quest: Manual Plane Detection 
-*Warning for manual detection:* I would recommend either blinding yourself to what dataset is which or have someone else draw the planes and don't label which dataset is which. In the case of the publication below I was given the datasets labelled as X and Y from the Kedar Sharma, who collected them. (Though due to the significant improvement I was quickly able to guess which dataset came from the ACE system) Take steps to ensure you are not allowing yourself to subconsciously bias your distribution results with where you draw your planes if you elect to draw them manually. 
-
-If you don't like the idea of automatically detected planes, worry not friend. When I first wrote this code, I had to draw them by hand. I added auto-detection for quality of life. However, if you are not getting the quality of planes you would like, or simply want to draw them yourself, this code is still easy to use. 
-
-You may use whatever plane drawing tool you enjoy, but I used paraview so that's what the first half of these instructions are for: https://www.paraview.org/.
-
-Paraview does not natively support *.spk files so you will also have to convert the files to a format paraview can read. Again, fear not, I've built a function for this already. 
-
 ## Publications
 Pending publication: Used in "Acoustofluidic Cryo-EM Enables In Situ Particle Manipulation for Uniform, High-Quality Cryo-EM Specimens" to validate the freezing method altered distribution of particles. Planes were manually drawn as code for automated plane detection was not yet written. Datasets were given to be processed blind (ie: I did not know which dataset was frozen with the ACE module)
