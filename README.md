@@ -2,30 +2,29 @@
 
 TomoDist (Tomograms' Distance and Distribution) is used to calculated the normalized distance of particles from the tomogram surface, giving the user insight into the distribution of the particles in the tomogram. It also provides data on the estimated ice thickness of the tomogram and can plot this data using MatPlotLib. The program uses fairly standard python3 libraries and IMOD. 
 
-## Pre-requisites 
-There are a few software that TomoDist relies upon one must install before using TomoDist. These are very standard Cryo-EM/ET and developer software. 
-1. IMOD --> TomoDist uses model2point to convert IMOD .spk files to .txt files to make them numpy readable. If you don't have IMOD installed, the software will fail to run. I used 5.1.2, but in theory any version containing model2point should work. You can check by putting model2point in your terminal and seeing if you get help information. 
-2. python3 --> TomoDist runs on python3
+## External Dependency
+This software currently requires IMOD model2point executable to run. I figured this is a common enough software for people working in EM/Tomo that it shouldn't be an unreasonable dependency. Just make sure IMOD model2point is installed and available on your PATH before running. You can check by putting model2point in your terminal and seeing if you get help information. 
 
-## Tutorial
-### Step Zero: Conda Environment (Optional)
-It's not required, but generally good practice to establish conda environments for different programs. If TomoDist doesn't run in your python setup natively, consider creating a conda environment to install dependencies and run it there. 
+## Tutorial (Use steps 0-1 even if you don't want to run the tutorial data)
+### 0. Setup: Conda Environment
+Good practice, and ensures you have the required dependencies. 
 
-#TODO add steps for this
+`conda env create -f environment.yml`
+`conda activate TomoDist`
 
-### Step One: Git Clone
+### 1. Step One: Git Clone
 Navigate to whatever directory you generally keep your Git repositories in. Run the command: 
 `git clone https://github.com/ajiwatson/TomoDist.git`
 
-### Step Two: Unzip tutorial data
+### 2. Step Two: Unzip tutorial data
 Use your preferred method to unzip the Tutorial_Data. These particles were generated using EMPIAR-10164 data and the geometrically constrained particle picking in nextPYP(v0.7.0)(https://github.com/nextpyp). (Note nextPYP is NOT a requirement to run TomoDist, any particle picking method works so long as it can produce .spk files) [Tomography Tutorial](https://nextpyp.app/files/pyp/0.7.0/docs/tutorials/tomo_empiar_10164.html#). Plane coordinates were manually picked. Plane and particle coordinates were exported from nextPYP using the 'Export particle coordinates in IMOD format (sva/*.spk)" option. 
 
-### Step Three: Run the program! 
+### 3. Step Three: Run the program! 
 Thanks to Mehmet (https://github.com/tasdelenmf) for adding compatability with a config file! Initially, I had a single command with a small army of flags to pass. Edit your config.yml file (If running tutorial the config.yml file comes set up assuming you have unzipped the data inside the Tutorial_Data directory. Change this if you unzipped it somewhere else)
 
 `python3 main.py config.yml`
 
-### Step Four: Look at your results
+### 4. Step Four: Look at your results
 If you go into the EMPIAR-10164 directory you should be able to see the results! Note that the normalized distances are unitless. The ice thickness and visualization plots are all done in nanometers (or unitless if displaying normalized distances). If you want to test the comparison options you can break up the tutorial data into two sets, or simply run it as both datasets being the EMPIAR-10164 dataset. Change the dataname for the second one if you do this though, I'm not sure how the code will behave if the two datanames are the same.
 
 
