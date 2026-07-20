@@ -187,7 +187,7 @@ def visualize_basename(
     ax1.set_ylabel("Y (nm)")
     ax1.set_zlabel("Z (nm)")
     ax1.set_title(f"{tomogram.name} – 3-D")
-    ax1.tick_params(axis='both', direction='in', tickdir='in')
+    ax1.tick_params(axis='both', direction='in', tickdir='in') #this is having no effect :(
     ax1.xaxis.set_major_locator(MultipleLocator(xspace))
     ax1.yaxis.set_major_locator(MultipleLocator(yspace))
     ax1.zaxis.set_major_locator(MultipleLocator(zspace))
