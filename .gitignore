@@ -1,5 +1,7 @@
-# Ignore files still under development
+# Ignore files still under development or used for testing
 only_edit_plots.py
+Tutorial_Data/10164/
+Results/
 
 # Ignore system-generated files
 .DS_Store

@@ -6,7 +6,7 @@ TomoDist (Tomograms' Distance and Distribution) is used to calculated the normal
 This software currently requires IMOD model2point executable to run. I figured this is a common enough software for people working in EM/Tomo that it shouldn't be an unreasonable dependency. Just make sure IMOD model2point is installed and available on your PATH before running. You can check by putting model2point in your terminal and seeing if you get help information. 
 
 ## Installation / Tutorial
-Use step 0 to install/set up if you don't want a conda environment
+Use step 0 to install/set up even if you don't want to run the tutorial
 ### 0. Installation / Setup: Git Clone and Conda Environment
 Navigate to whatever directory you generally keep your Git repositories in. Run the commands: 
 
@@ -14,7 +14,7 @@ Navigate to whatever directory you generally keep your Git repositories in. Run 
 `conda env create -f environment.yml`
 `conda activate TomoDist`
 
-### 2. Step Two: Unzip tutorial data
+### 2. Tutorial start: Unzip tutorial data
 Use your preferred method to unzip the Tutorial_Data. These particles were generated using EMPIAR-10164 data and the geometrically constrained particle picking in nextPYP(v0.7.0)(https://github.com/nextpyp). (Note nextPYP is NOT a requirement to run TomoDist, any particle picking method works so long as it can produce .spk files) [Tomography Tutorial](https://nextpyp.app/files/pyp/0.7.0/docs/tutorials/tomo_empiar_10164.html#). Plane coordinates were manually picked. Plane and particle coordinates were exported from nextPYP using the 'Export particle coordinates in IMOD format (sva/*.spk)" option. 
 
 ### 3. Step Three: Run the program! 

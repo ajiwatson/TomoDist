@@ -133,7 +133,7 @@ def load_point_data(dataset, particles, planes, outdir, keep=False):
     for particle_file in particle_files_txt: 
         particle_file = temp_particles_dir + particle_file
         tomo_name = os.path.splitext(os.path.basename(particle_file))[0]
-        print(particle_file)
+        #print(particle_file)
         data_xzy = np.loadtxt(particle_file)
         data_xyz = data_xzy[:, [0,2,1]]
 
@@ -150,9 +150,9 @@ def load_point_data(dataset, particles, planes, outdir, keep=False):
         if file.endswith('.spk'):
             #print(file)
             file = planes + file
-            print(file)
+            #print(file)
             output_file = os.path.join(temp_planes_dir, os.path.basename(file.replace('.spk', '.txt')))
-            print(output_file)
+            #print(output_file)
             subprocess.run(['model2point', file, output_file])
     
     # Read the .txt into numpy arrays and turn to xyz for planes

@@ -12,7 +12,6 @@ and ChatGPT (debugging, and so I did't have to search stack overflow when I knew
 
 import os
 import sys
-
 import yaml
 
 from data_handling import load_point_data, Dataset
@@ -82,13 +81,15 @@ def main():
         dist1 = add_distances(data1)
         dist2 = add_distances(data2)
 
-        print('dist1', dist1)
-        print('dist2', dist2)
+        #print('dist1', dist1)
+        #print('dist2', dist2)
 
         ice1 = add_ice(data1)
         ice2 = add_ice(data2)
 
         labels = [data1.name, data2.name]
+
+        print(f"Plotting comparison results, will save in {outdir}")
 
         plot_comparison(dist1, dist2, labels, "Normalized Distance", "Distribution of Particles in Tomograms", 0.5, outdir, "DistributionComparison.png")
 
