@@ -217,3 +217,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+ACE_Data/__pycache__
+ACE_Data/StandardPlots/*
+ACE_Data/ACEPlots/*
+ACE_Data/ComparisonResults/*
