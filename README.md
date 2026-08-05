@@ -20,7 +20,7 @@ Navigate to whatever directory you generally keep your Git repositories in. Run 
 Use your preferred method to unzip the Tutorial_Data. These particles were generated using EMPIAR-10164 data and the geometrically constrained particle picking in nextPYP(v0.7.0)(https://github.com/nextpyp). (Note nextPYP is NOT a requirement to run TomoDist, any particle picking method works so long as it can produce .spk files) [Tomography Tutorial](https://nextpyp.app/files/pyp/0.7.0/docs/tutorials/tomo_empiar_10164.html#). Plane coordinates were manually picked. Plane and particle coordinates were exported from nextPYP using the 'Export particle coordinates in IMOD format (sva/*.spk)" option. 
 
 ### 2. Run the program! 
-Thanks to Mehmet (https://github.com/tasdelenmf) for adding compatability with a config file! Initially, I had a single command with a small army of flags to pass. Edit your config.yml file (If running tutorial the config.yml file comes set up assuming you have unzipped the data inside the Tutorial_Data directory. Change this if you unzipped it somewhere else)
+Thanks to Mehmet Tasdelen (https://github.com/tasdelenmf) for adding compatability with a config file! Initially, I had a single command with a small army of flags to pass. Edit your config.yml file (If running tutorial the config.yml file comes set up assuming you have unzipped the data inside the Tutorial_Data directory. Change this if you unzipped it somewhere else)
 
 `python3 main.py config.yml`
 
@@ -72,3 +72,12 @@ All parameters are set in `config.yml`. See the example file included in the rep
 
 ## Publications
 Pending publication: Used in "Acoustofluidic Cryo-EM Enables In Situ Particle Manipulation for Uniform, High-Quality Cryo-EM Specimens" to validate the freezing method altered distribution of particles. Planes were manually drawn as code for automated plane detection was not yet written. Datasets were given to be processed blind (ie: I did not know which dataset was frozen with the ACE module)
+
+### Running Publication data tutorial
+When I originally wrote this code to process data for "Acoustofluidic Cryo-EM Enables In Situ Particle Manipulation for Uniform, High-Quality Cryo-EM Specimens", I had not yet devised a method for automated plane detection. As such, the data included for the publication has manually determined planes and particles and instructions on how you would get those yourself. On this ReadMe are only instructions for running the analysis once you have the planes and particles. 
+
+Everything is hardcoded for the publication data results: 
+Activate the conda environment (see Tutorial)
+Enter command: 
+
+python3 RunKaichunsData.py
